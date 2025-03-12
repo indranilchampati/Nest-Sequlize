@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "admin123",
+    "database": "nest",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}

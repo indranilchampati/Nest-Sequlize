@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { CustomerService } from './modules/customer/customer.service';
-import { CustomerController } from './modules/customer/customer.controller';
-import { CustomerModule } from './modules/customer/customer.module';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { ProductsModule } from './modules/products/products.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { CustomerModule } from './modules/customer/customer.module';
+import { Product } from './modules/products/products.model';
+import { Order } from './modules/orders/orders.model';
 import { Customer } from './modules/customer/customer.models';
 
 @Module({
   imports: [
-    CustomerModule,
     SequelizeModule.forRoot({
       dialect: 'mysql',
       host: 'localhost',
@@ -15,12 +16,11 @@ import { Customer } from './modules/customer/customer.models';
       username: 'root',
       password: 'admin123',
       database: 'nest',
-
-      models: [Customer],
-      // , Order, CustomerOrder],
+      models: [Product, Order, Customer],
     }),
+    ProductsModule,
+    OrdersModule,
+    CustomerModule,
   ],
-  controllers: [CustomerController],
-  providers: [CustomerService],
 })
 export class AppModule {}

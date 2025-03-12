@@ -50,4 +50,22 @@ export class Order extends Model {
     allowNull: false,
   })
   total: number;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  product_id: number;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  quantity: number;
+
+  @Column({
+    type: DataType.DECIMAL(10, 2),
+    allowNull: false,
+  })
+  price: number;
 }
