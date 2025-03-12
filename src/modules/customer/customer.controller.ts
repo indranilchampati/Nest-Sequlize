@@ -7,10 +7,10 @@ import {
   HttpStatus,
   Post,
   Put,
-  Query,
   Req,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
+
 @Controller('customer')
 export class CustomerController {
   constructor(private customerService: CustomerService) {}
@@ -30,7 +30,7 @@ export class CustomerController {
   @Put('updateCustomer')
   @HttpCode(HttpStatus.OK)
   public async updateCustomer(
-    @Query() configs: any,
+    @Body() configs: any, // Changed from @Query to @Body
     @Req() request: any,
   ): Promise<any> {
     return this.customerService.updateCustomer(configs);
@@ -39,7 +39,7 @@ export class CustomerController {
   @Delete('deleteCustomer')
   @HttpCode(HttpStatus.OK)
   public async deleteCustomer(
-    @Query() configs: any,
+    @Body() configs: any, // Changed from @Query to @Body
     @Req() request: any,
   ): Promise<any> {
     return this.customerService.deleteCustomer(configs);

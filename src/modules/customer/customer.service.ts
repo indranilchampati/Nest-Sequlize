@@ -1,7 +1,8 @@
 
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import Customer from '@app/database/models/Customer';
+import { Customer } from './customer.models';
+// import Customer from '@app/database/models/Customer';
 
 @Injectable()
 export class CustomerService {
