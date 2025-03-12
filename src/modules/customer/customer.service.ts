@@ -1,21 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CustomerRepository } from './customer.repository';
-// import Customer from '@app/database/models/Customer';
-
 @Injectable()
 export class CustomerService {
   constructor(private readonly customerRepository: CustomerRepository) {}
-
-  async createCustomer(customerData: any): Promise<any> {
-    try {
-      const newCustomer = await this.customerRepository.create(customerData);
-
-      return newCustomer;
-    } catch (error) {
-      console.error(`Error creating customer: ${error.message}`);
-      throw error;
-    }
-  }
 
   async getAllCustomer(): Promise<any> {
     try {
@@ -26,10 +13,19 @@ export class CustomerService {
     }
   }
 
-  async updateCustomer(customerData: any): Promise<any> {
+  async createCustomer(customerData: any): Promise<any> {
     try {
-      const customer = await this.customerRepository.findById(customerData.id);
+      const newCustomer = await this.customerRepository.create(customerData);
+      return newCustomer;
+    } catch (error) {
+      console.error(`Error creating customer: ${error.message}`);
+      throw error;
+    }
+  }
 
+  async updateCustomer(customerId: number, customerData: any): Promise<any> {
+    try {
+      const customer = await this.customerRepository.findById(customerId);
       if (!customer) throw new Error('Customer not found');
       await customer.update(customerData);
       return customer;
@@ -39,10 +35,9 @@ export class CustomerService {
     }
   }
 
-  async deleteCustomer(customerId: any): Promise<any> {
+  async deleteCustomer(customerId: number): Promise<any> {
     try {
       const customer = await this.customerRepository.findById(customerId);
-
       if (!customer) throw new Error('Customer not found');
       await customer.destroy();
       return { message: 'Customer deleted successfully' };

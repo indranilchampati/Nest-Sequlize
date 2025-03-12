@@ -1,8 +1,13 @@
-import { Table, Column, Model, DataType, HasMany, BelongsToMany } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  HasMany,
+  BelongsToMany,
+} from 'sequelize-typescript';
 // import { Order } from './order.model';
 // import { CustomerOrder } from './customer-order.model';
-
-
 
 @Table
 export class Customer extends Model<Customer> {
@@ -12,10 +17,7 @@ export class Customer extends Model<Customer> {
     allowNull: false,
     primaryKey: true,
   })
-  // id!: number;
-
-
-
+  declare id: number;
 
   @Column({
     type: DataType.STRING,
@@ -30,9 +32,9 @@ export class Customer extends Model<Customer> {
   })
   email: string;
 
-//   @HasMany(() => Order)
-//   orders: Order[];
+  //   @HasMany(() => Order)
+  //   orders: Order[];
 
-//   @BelongsToMany(() => Order, () => CustomerOrder)
-//   customerOrders: Order[];
+  //   @BelongsToMany(() => Order, () => CustomerOrder)
+  //   customerOrders: Order[];
 }

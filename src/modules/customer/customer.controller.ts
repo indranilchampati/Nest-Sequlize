@@ -3,45 +3,33 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
-  HttpStatus,
+  Param,
   Post,
   Put,
-  Req,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 
 @Controller('customer')
 export class CustomerController {
-  constructor(private customerService: CustomerService) {}
+  constructor(private readonly customerService: CustomerService) {}
 
-  @Post('createCustomer')
-  @HttpCode(HttpStatus.OK)
-  public customer(@Body() configs: any): Promise<any> {
-    return this.customerService.createCustomer(configs);
-  }
-
-  @Get('getAllCustomer')
-  @HttpCode(HttpStatus.OK)
-  public async fetchCustomers(): Promise<any> {
+  @Get()
+  async getAllCustomers() {
     return this.customerService.getAllCustomer();
   }
 
-  @Put('updateCustomer')
-  @HttpCode(HttpStatus.OK)
-  public async updateCustomer(
-    @Body() configs: any, // Changed from @Query to @Body
-    @Req() request: any,
-  ): Promise<any> {
-    return this.customerService.updateCustomer(configs);
+  @Post()
+  async createCustomer(@Body() customerData: any) {
+    return this.customerService.createCustomer(customerData);
   }
 
-  @Delete('deleteCustomer')
-  @HttpCode(HttpStatus.OK)
-  public async deleteCustomer(
-    @Body() configs: any, // Changed from @Query to @Body
-    @Req() request: any,
-  ): Promise<any> {
-    return this.customerService.deleteCustomer(configs);
+  @Put(':id')
+  async updateCustomer(@Param('id') id: number, @Body() customerData: any) {
+    return this.customerService.updateCustomer(id, customerData);
+  }
+
+  @Delete(':id')
+  async deleteCustomer(@Param('id') id: number) {
+    return this.customerService.deleteCustomer(id);
   }
 }
