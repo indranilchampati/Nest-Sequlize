@@ -1,19 +1,15 @@
-
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { Customer } from './customer.models';
+import { CustomerRepository } from './customer.repository';
 // import Customer from '@app/database/models/Customer';
 
 @Injectable()
 export class CustomerService {
-  constructor(
-    @InjectModel(Customer)
-    private readonly customerModel: typeof Customer,
-  ) {}
+  constructor(private readonly customerRepository: CustomerRepository) {}
 
   async createCustomer(customerData: any): Promise<any> {
     try {
-      const newCustomer = await this.customerModel.create(customerData);
+      const newCustomer = await this.customerRepository.create(customerData);
+
       return newCustomer;
     } catch (error) {
       console.error(`Error creating customer: ${error.message}`);
@@ -23,7 +19,7 @@ export class CustomerService {
 
   async getAllCustomer(): Promise<any> {
     try {
-      return await this.customerModel.findAll();
+      return await this.customerRepository.findAll();
     } catch (error) {
       console.error(`Error fetching customers: ${error.message}`);
       throw error;
@@ -32,7 +28,8 @@ export class CustomerService {
 
   async updateCustomer(customerData: any): Promise<any> {
     try {
-      const customer = await this.customerModel.findByPk(customerData.id);
+      const customer = await this.customerRepository.findById(customerData.id);
+
       if (!customer) throw new Error('Customer not found');
       await customer.update(customerData);
       return customer;
@@ -44,7 +41,8 @@ export class CustomerService {
 
   async deleteCustomer(customerId: any): Promise<any> {
     try {
-      const customer = await this.customerModel.findByPk(customerId);
+      const customer = await this.customerRepository.findById(customerId);
+
       if (!customer) throw new Error('Customer not found');
       await customer.destroy();
       return { message: 'Customer deleted successfully' };
